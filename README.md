@@ -7,7 +7,7 @@ Food Product Explorer is a modern, responsive web application designed to help u
 
 ### 🛍️ Product Listing
 - Browse a grid of food products with high-quality images.
-- endless scrolling or "Load More" functionality for seamless exploration.
+- "Load More" pagination for seamless exploration
 - Visual badges for Nutrition Grades (A-E).
 
 ### 🔍 Smart Search
@@ -66,4 +66,37 @@ This project uses the public **OpenFoodFacts API**.
 | **Categories** | `https://world.openfoodfacts.org/categories.json` | Fetch list of food categories. |
 
 ---
+
+## 🗓️ Development Timeline
+
+### **Day 1 – Project Setup & Core Architecture**
+- Initialized React project using Vite and configured Tailwind CSS.
+- Designed folder structure following component-based architecture.
+- Set up React Router for page navigation.
+- Integrated OpenFoodFacts API and implemented base product fetching.
+- Built initial product grid layout with loading and error states.
+
+### **Day 2 – Homepage Features & API Enhancements**
+- Implemented product listing with pagination using “Load More” functionality.
+- Added smart product search with debouncing for optimized API usage.
+- Integrated category-based filtering using API-driven categories.
+- Implemented client-side sorting (Name A–Z, Z–A, Nutrition Grade).
+- Improved UI with responsive grid and visual nutrition-grade indicators.
+
+### **Day 3 – Product Detail Page & Advanced Features**
+- Built dynamic Product Detail page using barcode-based routing.
+- Integrated barcode search with auto-detection and direct navigation.
+- Displayed detailed nutritional values, ingredients, allergens, and labels.
+- Added eco-score and nutri-score visual indicators.
+- Implemented responsive layouts for mobile and tablet views.
+
+### **Day 4 – Polishing, Bonus Features & Deployment**
+- Implemented optional cart functionality using React Context API.
+- Added cart persistence using localStorage.
+- Refined UI/UX (spacing, typography, glassmorphism effects).
+- Deployed application on Vercel and performed final testing.
+- Wrote comprehensive README documentation.
+
+## ⏱️ Total Time Spent
+**~24 hours across 4 days**
 
