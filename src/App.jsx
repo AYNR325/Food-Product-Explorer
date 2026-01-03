@@ -6,14 +6,13 @@ import { useState } from 'react'
 import Cart from './pages/Cart'
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState("");
   return (
     <div className="bg-background min-h-screen text-text">
       {/* pass setter to navbar */}
-      <Navbar onSearch={setSearchQuery} />
+      <Navbar />
       <Routes>
         {/* Pass query to Home */}
-        <Route path="/" element={<Home searchQuery={searchQuery} />} />
+        <Route path="/" element={<Home />} />
         {/* The :barcode part acts as a variable we can read later */}
         <Route path="/product/:barcode" element={<ProductDetails />} />
         <Route path='/cart' element={<Cart />} />

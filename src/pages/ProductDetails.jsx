@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { getProductDetails } from "../services/api";
+import { useCart } from "../context/CartContext";
 
 function ProductDetails() {
     const { barcode } = useParams();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { addToCart } = useCart();
 
     useEffect(() => {
         const loadData = async () => {
@@ -23,10 +26,11 @@ function ProductDetails() {
 
     if (loading) return (
         <div className="flex justify-center items-center h-screen">
-            <div className="spinner"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-orange-500"></div>
         </div>
     );
-    if (!product) return <div className="text-center p-10">Product not found</div>;
+
+    if (!product) return <div className="text-center p-10 text-xl text-gray-500">Product not found 😕</div>;
 
     // Helper to safety check values
     const getNutrient = (name) => product.nutriments?.[name] || "--";
@@ -47,9 +51,13 @@ function ProductDetails() {
 
     return (
         <div className="container mx-auto p-6 max-w-5xl">
-            <Link to="/" className="text-gray-600 hover:text-orange-600 mb-6 inline-flex items-center gap-2 font-medium transition-colors">
-                <span>←</span> Back to Search
-            </Link>
+            <button
+                onClick={() => navigate(-1)}
+                className="group flex items-center gap-2 text-gray-500 hover:text-orange-600 mb-6 transition-colors font-medium"
+            >
+                <span>←</span>
+                Back to Results
+            </button>
 
             <div className="glass-panel p-8 rounded-3xl grid md:grid-cols-2 gap-10">
                 {/* Image Section */}

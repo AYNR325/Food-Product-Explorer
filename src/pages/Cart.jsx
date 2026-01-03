@@ -23,6 +23,12 @@ function Cart() {
 
     return (
         <div className="container mx-auto p-6 max-w-4xl">
+            <button
+                onClick={() => window.history.back()}
+                className="mb-6 text-gray-500 hover:text-orange-600 flex items-center gap-2 font-medium"
+            >
+                <span>←</span> Back
+            </button>
             <h1 className="text-3xl font-extrabold mb-8 flex items-center gap-2">
                 Shopping Cart <span className="text-sm bg-orange-100 text-orange-600 px-3 py-1 rounded-full">{totalItems} items</span>
             </h1>

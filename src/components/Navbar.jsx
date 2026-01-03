@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
-function Navbar({ onSearch }) {
-    const [inputValue, setInputValue] = useState("");
+function Navbar() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialQuery = searchParams.get("search") || "";
+    const [inputValue, setInputValue] = useState(initialQuery);
     const navigate = useNavigate();
+    const location = useLocation(); // Get current location
     const lastSearchRef = React.useRef(inputValue); // Track last searched value
     const { totalItems } = useCart();
+
+
+    useEffect(() => {
+        if (location.pathname === "/") {
+            const queryFromUrl = searchParams.get("search") || "";
+            if (queryFromUrl !== inputValue && queryFromUrl !== lastSearchRef.current) {
+                setInputValue(queryFromUrl);
+            }
+        }
+    }, [searchParams, location.pathname]);
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -16,11 +29,6 @@ function Navbar({ onSearch }) {
             }
             lastSearchRef.current = inputValue; // Update ref
 
-            if (!inputValue) {
-                onSearch("");
-                return;
-            }
-
             // Check if input is ONLY numbers and at least 8 chars (Smart Barcode Detection)
             const isBarcode = /^\d{8,}$/.test(inputValue);
 
@@ -28,18 +36,29 @@ function Navbar({ onSearch }) {
                 // If it looks like a barcode, go directly to Details Page!
                 navigate(`/product/${inputValue}`);
             } else {
-                // Otherwise, perform normal search on Home page
-                onSearch(inputValue);
 
-                // Only redirect to home if we are NOT already there
-                if (window.location.pathname !== '/') {
-                    navigate('/');
+                // If we are NOT on home, navigate there with the search
+                if (location.pathname !== '/') {
+                    if (inputValue) {
+                        navigate(`/?search=${inputValue}`);
+                    }
+                } else {
+                    // Otherwise, currently on Home, just update params (replace history to avoid clutter)
+                    setSearchParams(prev => {
+                        if (inputValue) {
+                            prev.set("search", inputValue);
+                            prev.delete("category");
+                        } else {
+                            prev.delete("search");
+                        }
+                        return prev;
+                    }, { replace: true });
                 }
             }
         }, 800);
 
         return () => clearTimeout(timeoutId);
-    }, [inputValue, onSearch, navigate]);
+    }, [inputValue, navigate, setSearchParams, location.pathname]);
 
     return (
         <nav className="bg-white/30 backdrop-blur-xl border-b border-white/30 shadow-lg sticky top-0 z-50 w-full px-6 py-3 transition-all">

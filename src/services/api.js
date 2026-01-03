@@ -1,5 +1,8 @@
 const BASE_URL = "https://world.openfoodfacts.org";
 
+// Fields to fetch for list views (Reduces payload size significantly)
+const FIELDS = "code,product_name,brands,image_url,nutrition_grades";
+
 // Fetch products with pagination, category, and sorting
 export const fetchProducts = async (page = 1, category = "", sort = "") => {
     let url;
@@ -11,9 +14,9 @@ export const fetchProducts = async (page = 1, category = "", sort = "") => {
     else if (sort === "grade_asc") sortParam = "&sort_by=nutrition_grades";
 
     if (category) {
-        url = `${BASE_URL}/category/${category}.json?page=${page}${sortParam}`;
+        url = `${BASE_URL}/category/${category}.json?page=${page}${sortParam}&fields=${FIELDS}`;
     } else {
-        url = `${BASE_URL}/cgi/search.pl?search_simple=1&action=process&json=1&page=${page}&page_size=24${sortParam}`;
+        url = `${BASE_URL}/cgi/search.pl?search_simple=1&action=process&json=1&page=${page}&page_size=24${sortParam}&fields=${FIELDS}`;
     }
 
     const response = await fetch(url);
@@ -24,7 +27,7 @@ export const fetchProducts = async (page = 1, category = "", sort = "") => {
 // Search products by name (User types in search bar)
 export const searchProductByName = async (query, page = 1) => {
     if (!query) return;
-    const url = `${BASE_URL}/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page=${page}&page_size=24`;
+    const url = `${BASE_URL}/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page=${page}&page_size=24&fields=${FIELDS}`;
 
     const response = await fetch(url);
     if (!response.ok) throw new Error("Failed to search products");

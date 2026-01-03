@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom"; // Import this
 import { fetchProducts, searchProductByName } from "../services/api";
 import ProductCard from "../components/ProductCard";
 import FilterPanel from "../components/FilterPanel";
 
-function Home({ searchQuery }) {
+function Home() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [searchParams, setSearchParams] = useSearchParams(); // Use URL params
+
+    // Read params from URL
+    const selectedCategory = searchParams.get("category") || "";
+    const searchQuery = searchParams.get("search") || "";
+
     const [sortOption, setSortOption] = useState("");
     const [page, setPage] = useState(1);
 
@@ -68,7 +74,12 @@ function Home({ searchQuery }) {
                 <FilterPanel
                     selectedCategory={selectedCategory}
                     onSelectCategory={(cat) => {
-                        setSelectedCategory(cat);
+                        // Update URL instead of local state
+                        setSearchParams(prev => {
+                            if (cat) prev.set("category", cat);
+                            else prev.delete("category");
+                            return prev;
+                        });
                     }}
                     sortOption={sortOption}
                     onSortChange={setSortOption}
@@ -80,7 +91,7 @@ function Home({ searchQuery }) {
                 {/* Show Loading ONLY if it's initial load (no products yet) */}
                 {loading && products.length === 0 ? (
                     <div className="flex justify-center items-center py-20">
-                        <div className="spinner"></div>
+                        <div className="spinner animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent"></div>
                     </div>
                 ) : (
                     <>
