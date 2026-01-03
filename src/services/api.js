@@ -1,7 +1,5 @@
 const BASE_URL = "https://world.openfoodfacts.org";
 
-
-// Fetch products with pagination and category filtering
 // Fetch products with pagination, category, and sorting
 export const fetchProducts = async (page = 1, category = "", sort = "") => {
     let url;

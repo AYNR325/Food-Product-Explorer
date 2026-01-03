@@ -46,8 +46,7 @@ function Cart() {
 
                         {/* Controls */}
                         <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-1">
-                            {/* We can reuse addToCart to increment. To decrement, we'd need a new function or logic, 
-                                but for now let's keep it simple: Remove or Add More */}
+
                             <button onClick={() => removeFromCart(item.code)} className="px-3 py-1 text-red-500 font-bold hover:bg-red-50 rounded">-</button>
                             <span className="font-bold w-6 text-center">{item.quantity}</span>
                             <button onClick={() => addToCart(item)} className="px-3 py-1 text-green-600 font-bold hover:bg-green-50 rounded">+</button>

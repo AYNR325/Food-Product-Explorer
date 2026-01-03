@@ -53,7 +53,6 @@ function ProductDetails() {
 
             <div className="glass-panel p-8 rounded-3xl grid md:grid-cols-2 gap-10">
                 {/* Image Section */}
-                {/* Image Section */}
                 <div className="bg-white/40 p-8 rounded-2xl flex items-center justify-center  relative border border-white/60 shadow-inner min-h-[300px]">
                     <img
                         src={product.image_url}
