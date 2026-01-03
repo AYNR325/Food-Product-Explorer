@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom"; // Import this
 import { fetchProducts, searchProductByName } from "../services/api";
 import ProductCard from "../components/ProductCard";
 import FilterPanel from "../components/FilterPanel";
+import { applySorting } from "../utils/sorting";
 
 function Home() {
     const [products, setProducts] = useState([]);
@@ -26,11 +27,15 @@ function Home() {
             try {
                 let data;
                 if (searchQuery) {
-                    data = await searchProductByName(searchQuery, 1);
+                    data = await searchProductByName(searchQuery, 1, sortOption);
                 } else {
                     data = await fetchProducts(1, selectedCategory, sortOption);
                 }
-                setProducts(data?.products || []);
+                
+                // Apply client-side sorting and filtering
+                const rawProducts = data?.products || [];
+                const sortedAndFiltered = applySorting(rawProducts, sortOption);
+                setProducts(sortedAndFiltered);
             } catch (error) {
                 console.error(error);
             } finally {
@@ -49,13 +54,20 @@ function Home() {
         try {
             let data;
             if (searchQuery) {
-                data = await searchProductByName(searchQuery, nextPage);
+                data = await searchProductByName(searchQuery, nextPage, sortOption);
             } else {
                 data = await fetchProducts(nextPage, selectedCategory, sortOption);
             }
 
             if (data?.products && data.products.length > 0) {
-                setProducts(prev => [...prev, ...data.products]); // Append data
+                // Apply client-side sorting and filtering to new products
+                const rawProducts = data.products;
+                const sortedAndFiltered = applySorting(rawProducts, sortOption);
+                
+                // Merge with existing products and re-sort the entire list
+                const mergedProducts = [...products, ...sortedAndFiltered];
+                const finalSorted = applySorting(mergedProducts, sortOption);
+                setProducts(finalSorted);
                 setPage(nextPage);
             }
         } catch (error) {
