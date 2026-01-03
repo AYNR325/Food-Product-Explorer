@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Outfit", sans-serif;
+
+  --color-primary: #f97316;
+  /* Orange-500 */
+  --color-primary-hover: #ea580c;
+  /* Orange-600 */
+  --color-secondary: #f43f5e;
+  /* Rose-500 */
+
+  --color-glass: rgba(255, 255, 255, 0.7);
+  --color-glass-border: rgba(255, 255, 255, 0.5);
+
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+body {
+  font-family: var(--font-sans);
+  background: linear-gradient(135deg, #fff1eb 0%, #ace0f9 100%);
+  background-attachment: fixed;
+  color: #1f2937;
+  min-height: 100vh;
+  /* Specific Warm Gradient for Food App */
+  background-image:
+    radial-gradient(at 0% 0%, hsla(28, 100%, 74%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(11, 100%, 74%, 1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(39, 100%, 74%, 1) 0, transparent 50%);
+  background-color: #fff7ed;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-md border border-white/50 shadow-xl;
+  }
+
+  .glass-card {
+    @apply bg-white/60 backdrop-blur-sm border border-white/40 shadow-lg hover:shadow-2xl hover:bg-white/80 transition-all duration-300 hover:-translate-y-1;
+  }
+
+  .glass-input {
+    @apply bg-white/50 border border-white/60 focus:bg-white/90 backdrop-blur-sm focus:ring-2 focus:ring-orange-400/50 focus:border-orange-500 transition-all outline-none;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-95 transition-all duration-200 font-bold tracking-wide;
+  }
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ffedd5;
+  /* Orange-100 */
+  border-top-color: #f97316;
+  /* Orange-500 */
+  border-radius: 50%;
+  animation: spin 1s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(249, 115, 22, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(249, 115, 22, 0.6);
+}
